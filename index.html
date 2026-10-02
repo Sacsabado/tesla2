@@ -3,11 +3,54 @@
 
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-  <title>Experience Tesla</title>
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+  >
+
+  <title>Tesla Experience</title>
 
   <style>
+
+    /* =========================================================
+       VARIABLES
+    ========================================================= */
+
+    :root {
+      --accent: #3e6ae1;
+
+      --bg: #ffffff;
+      --bg-soft: #f4f4f4;
+      --card: #ffffff;
+
+      --text: #171a20;
+      --muted: #66686c;
+
+      --border: rgba(0,0,0,0.09);
+
+      --glass: rgba(255,255,255,0.78);
+
+      --shadow: 0 20px 60px rgba(0,0,0,0.10);
+    }
+
+
+    body.dark {
+      --bg: #08090b;
+      --bg-soft: #101114;
+      --card: #151619;
+
+      --text: #f5f5f7;
+      --muted: #9d9fa4;
+
+      --border: rgba(255,255,255,0.09);
+
+      --glass: rgba(14,15,17,0.78);
+
+      --shadow: 0 20px 60px rgba(0,0,0,0.45);
+    }
+
+
 
     /* =========================================================
        GENERAL
@@ -19,16 +62,28 @@
       box-sizing: border-box;
     }
 
+
     html {
       scroll-behavior: smooth;
     }
 
+
     body {
-      font-family: Arial, Helvetica, sans-serif;
-      color: #171a20;
-      background: #fff;
+      background: var(--bg);
+      color: var(--text);
+
+      font-family:
+        Arial,
+        Helvetica,
+        sans-serif;
+
       overflow-x: hidden;
+
+      transition:
+        background .5s ease,
+        color .5s ease;
     }
+
 
     button,
     input,
@@ -36,8 +91,74 @@
       font: inherit;
     }
 
+
     button {
       cursor: pointer;
+    }
+
+
+
+    /* =========================================================
+       CUSTOM PAGE TRANSITION
+    ========================================================= */
+
+    #transitionLine {
+      position: fixed;
+
+      width: 32vw;
+      min-width: 250px;
+      height: 3px;
+
+      top: 50%;
+      left: -40vw;
+
+      background:
+        linear-gradient(
+          90deg,
+          transparent,
+          var(--accent),
+          white,
+          var(--accent),
+          transparent
+        );
+
+      z-index: 99999;
+
+      pointer-events: none;
+
+      box-shadow:
+        0 0 20px var(--accent),
+        0 0 50px var(--accent);
+
+      opacity: 0;
+    }
+
+
+    #transitionLine.run {
+      animation: transitionRun .65s ease-in-out;
+    }
+
+
+    @keyframes transitionRun {
+
+      0% {
+        left: -40vw;
+        opacity: 0;
+      }
+
+      15% {
+        opacity: 1;
+      }
+
+      85% {
+        opacity: 1;
+      }
+
+      100% {
+        left: 115vw;
+        opacity: 0;
+      }
+
     }
 
 
@@ -48,48 +169,58 @@
 
     header {
       position: fixed;
+
       top: 0;
       left: 0;
 
       width: 100%;
       height: 70px;
 
-      padding: 0 40px;
+      z-index: 1000;
 
       display: flex;
       align-items: center;
       justify-content: space-between;
 
-      z-index: 1000;
+      padding: 0 35px;
 
       color: white;
 
       transition:
-        background-color 0.35s ease,
-        color 0.35s ease,
-        box-shadow 0.35s ease,
-        backdrop-filter 0.35s ease;
+        background .4s ease,
+        color .4s ease,
+        backdrop-filter .4s ease,
+        box-shadow .4s ease;
     }
 
 
     header.scrolled {
-      background: rgba(255, 255, 255, 0.88);
+      background: var(--glass);
+      color: var(--text);
 
-      backdrop-filter: blur(15px);
-      -webkit-backdrop-filter: blur(15px);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
 
-      color: #171a20;
-
-      box-shadow: 0 1px 10px rgba(0, 0, 0, 0.08);
+      box-shadow:
+        0 1px 0 var(--border);
     }
 
 
     .logo {
-      width: 150px;
+      width: 145px;
 
-      filter: brightness(0) invert(1);
+      filter:
+        brightness(0)
+        invert(1);
 
-      transition: filter 0.35s ease;
+      transition:
+        filter .4s ease,
+        transform .2s ease;
+    }
+
+
+    .logo:active {
+      transform: scale(.96);
     }
 
 
@@ -98,110 +229,261 @@
     }
 
 
-
-    /* =========================================================
-       NAV
-    ========================================================= */
-
-    nav ul {
-      list-style: none;
-
-      display: flex;
-      align-items: center;
-
-      gap: 6px;
+    body.dark header.scrolled .logo {
+      filter:
+        brightness(0)
+        invert(1);
     }
 
 
-    nav a,
-    .nav-button {
+
+    /* =========================================================
+       DESKTOP NAV
+    ========================================================= */
+
+    .desktop-nav ul {
+      display: flex;
+      gap: 5px;
+
+      list-style: none;
+    }
+
+
+    .desktop-nav a {
+      display: block;
+
+      padding: 10px 14px;
+
+      border-radius: 7px;
+
+      color: inherit;
       text-decoration: none;
 
-      color: inherit;
-
-      font-size: 14px;
       font-weight: 600;
-
-      padding: 10px 13px;
-
-      border-radius: 6px;
+      font-size: 14px;
 
       transition:
-        background 0.25s ease,
-        transform 0.2s ease;
+        background .2s ease,
+        transform .2s ease;
     }
 
 
-    nav a:hover,
-    .nav-button:hover {
-      background: rgba(255, 255, 255, 0.15);
+    .desktop-nav a:hover {
+      background: rgba(255,255,255,.15);
+      transform: translateY(-1px);
     }
 
 
-    header.scrolled nav a:hover,
-    header.scrolled .nav-button:hover {
-      background: rgba(0, 0, 0, 0.07);
+    header.scrolled .desktop-nav a:hover {
+      background: var(--border);
     }
 
 
-    nav a.active {
-      background: rgba(255, 255, 255, 0.18);
+    .desktop-nav a.active {
+      background: rgba(255,255,255,.17);
     }
 
 
-    header.scrolled nav a.active {
-      background: rgba(0, 0, 0, 0.08);
+    header.scrolled .desktop-nav a.active {
+      background: var(--border);
     }
 
 
 
     /* =========================================================
-       RIGHT ICONS
+       HEADER CONTROLS
     ========================================================= */
 
-    .right-menu {
+    .header-controls {
       display: flex;
-      align-items: center;
-      gap: 4px;
+      gap: 5px;
     }
 
 
-    .icon-button {
+    .icon-btn {
       width: 42px;
       height: 42px;
-
-      border: none;
-
-      background: transparent;
-      color: inherit;
-
-      border-radius: 50%;
 
       display: flex;
       align-items: center;
       justify-content: center;
 
+      border: none;
+      border-radius: 50%;
+
+      background: transparent;
+
+      color: inherit;
+
+      font-size: 19px;
+
       transition:
-        background 0.25s ease,
-        transform 0.25s ease;
+        background .2s ease,
+        transform .2s ease;
     }
 
 
-    .icon-button:hover {
-      background: rgba(255,255,255,0.15);
-      transform: scale(1.05);
+    .icon-btn:hover {
+      background: rgba(255,255,255,.15);
+      transform: scale(1.06);
     }
 
 
-    header.scrolled .icon-button:hover {
-      background: rgba(0,0,0,0.07);
+    header.scrolled .icon-btn:hover {
+      background: var(--border);
     }
 
 
-    .icon-button svg {
-      width: 21px;
-      height: 21px;
-      stroke: currentColor;
+
+    /* =========================================================
+       DYNAMIC ISLAND
+    ========================================================= */
+
+    .dynamic-island {
+      position: fixed;
+
+      z-index: 5000;
+
+      top: 82px;
+      left: 50%;
+
+      transform: translateX(-50%);
+
+      width: 235px;
+      height: 46px;
+
+      padding: 0 17px;
+
+      border-radius: 30px;
+
+      background:
+        rgba(5,5,6,.92);
+
+      color: white;
+
+      box-shadow:
+        0 10px 35px rgba(0,0,0,.28),
+        0 0 0 1px rgba(255,255,255,.06);
+
+      backdrop-filter: blur(20px);
+
+      overflow: hidden;
+
+      cursor: pointer;
+
+      transition:
+        width .45s cubic-bezier(.2,.8,.2,1),
+        height .45s cubic-bezier(.2,.8,.2,1),
+        border-radius .45s ease,
+        box-shadow .3s ease;
+    }
+
+
+    .dynamic-island:hover {
+      box-shadow:
+        0 15px 40px rgba(0,0,0,.35),
+        0 0 0 1px rgba(255,255,255,.1);
+    }
+
+
+    .dynamic-island.expanded {
+      width: 370px;
+      height: 230px;
+
+      border-radius: 27px;
+    }
+
+
+    .island-small {
+      height: 46px;
+
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+
+      white-space: nowrap;
+    }
+
+
+    .island-left {
+      display: flex;
+      align-items: center;
+      gap: 9px;
+    }
+
+
+    .status-dot {
+      width: 8px;
+      height: 8px;
+
+      border-radius: 50%;
+
+      background: var(--accent);
+
+      box-shadow:
+        0 0 10px var(--accent);
+    }
+
+
+    .island-model {
+      font-weight: 700;
+      font-size: 13px;
+    }
+
+
+    .connected {
+      font-size: 10px;
+
+      letter-spacing: 1px;
+
+      color: #9b9da2;
+    }
+
+
+    .island-details {
+      opacity: 0;
+
+      padding-top: 14px;
+
+      pointer-events: none;
+
+      transform: translateY(8px);
+
+      transition:
+        opacity .25s ease,
+        transform .3s ease;
+    }
+
+
+    .dynamic-island.expanded .island-details {
+      opacity: 1;
+
+      transform: translateY(0);
+    }
+
+
+    .island-title {
+      margin-bottom: 17px;
+
+      font-size: 23px;
+      font-weight: 700;
+    }
+
+
+    .island-row {
+      display: flex;
+      justify-content: space-between;
+
+      padding: 8px 0;
+
+      font-size: 13px;
+
+      color: #b4b5ba;
+    }
+
+
+    .island-row strong {
+      color: white;
     }
 
 
@@ -213,8 +495,8 @@
     .hero {
       position: relative;
 
-      width: 100%;
       height: 100vh;
+      width: 100%;
 
       overflow: hidden;
 
@@ -229,17 +511,16 @@
     .hero-video {
       position: absolute;
 
-      top: 0;
-      left: 0;
-
       width: 100%;
       height: 110%;
+
+      inset: 0;
 
       object-fit: cover;
 
       z-index: 0;
 
-      transform: translateY(0);
+      transform: scale(1.05);
 
       will-change: transform;
     }
@@ -249,23 +530,18 @@
       position: absolute;
       inset: 0;
 
+      z-index: 1;
+
       background:
         linear-gradient(
           to bottom,
-          rgba(0, 0, 0, 0.28) 0%,
-          rgba(0, 0, 0, 0.06) 30%,
-          rgba(0, 0, 0, 0.05) 65%,
-          rgba(0, 0, 0, 0.38) 100%
+          rgba(0,0,0,.32),
+          rgba(0,0,0,.05) 35%,
+          rgba(0,0,0,.05) 60%,
+          rgba(0,0,0,.47)
         );
-
-      z-index: 1;
     }
 
-
-
-    /* =========================================================
-       HERO CONTENT
-    ========================================================= */
 
     .hero-content {
       position: relative;
@@ -274,59 +550,47 @@
 
       text-align: center;
 
-      margin-top: -110px;
+      margin-top: -90px;
 
       padding: 20px;
-
-      width: 100%;
     }
 
 
     .hero-content h1 {
-      font-size: clamp(48px, 7vw, 82px);
-      font-weight: 600;
+      font-size:
+        clamp(48px,7vw,86px);
 
-      letter-spacing: -2px;
-
-      margin-bottom: 12px;
+      letter-spacing: -3px;
 
       opacity: 0;
-      transform: translateY(30px);
 
-      animation: heroAppear 1s ease forwards;
+      transform:
+        translateY(25px);
+
+      animation:
+        heroEnter 1s ease forwards;
     }
 
 
     .hero-content h2 {
-      font-size: clamp(19px, 2vw, 26px);
+      margin-top: 10px;
+
+      font-size:
+        clamp(18px,2vw,25px);
+
       font-weight: 400;
 
       opacity: 0;
-      transform: translateY(25px);
 
-      animation: heroAppear 1s ease 0.25s forwards;
+      transform:
+        translateY(20px);
+
+      animation:
+        heroEnter 1s ease .25s forwards;
     }
 
 
-    .changing-text {
-      display: inline-block;
-
-      min-width: 260px;
-
-      transition:
-        opacity 0.35s ease,
-        transform 0.35s ease;
-    }
-
-
-    .changing-text.hide {
-      opacity: 0;
-      transform: translateY(10px);
-    }
-
-
-
-    @keyframes heroAppear {
+    @keyframes heroEnter {
 
       to {
         opacity: 1;
@@ -336,227 +600,245 @@
     }
 
 
-
-    /* =========================================================
-       HERO BUTTONS
-    ========================================================= */
-
     .hero-buttons {
       position: absolute;
 
-      z-index: 3;
+      z-index: 4;
 
       left: 50%;
-      bottom: 90px;
+      bottom: 75px;
 
-      transform: translateX(-50%);
+      transform:
+        translateX(-50%);
 
       display: flex;
-      gap: 16px;
-
-      opacity: 0;
-
-      animation: fadeButtons 1s ease 0.6s forwards;
+      gap: 15px;
     }
 
 
-    @keyframes fadeButtons {
-
-      to {
-        opacity: 1;
-      }
-
-    }
-
-
-    .hero-btn {
-      width: 230px;
+    .main-btn {
+      min-width: 220px;
 
       padding: 14px 24px;
 
       border: none;
-      border-radius: 5px;
+      border-radius: 6px;
 
-      font-weight: 600;
-      font-size: 15px;
+      font-weight: 700;
 
       transition:
-        transform 0.25s ease,
-        box-shadow 0.25s ease,
-        background 0.25s ease;
+        transform .25s ease,
+        box-shadow .25s ease,
+        background .25s ease;
     }
 
 
-    .hero-btn:hover {
+    .main-btn:hover {
       transform: translateY(-4px);
 
-      box-shadow: 0 12px 30px rgba(0,0,0,0.22);
+      box-shadow:
+        0 15px 35px rgba(0,0,0,.25);
     }
 
 
-    .hero-btn:active {
-      transform: scale(0.97);
+    .main-btn:active {
+      transform: scale(.97);
     }
 
 
     .primary {
-      background: #3e6ae1;
+      background: var(--accent);
       color: white;
-    }
-
-
-    .primary:hover {
-      background: #345dc9;
     }
 
 
     .secondary {
-      background: rgba(255,255,255,0.94);
-      color: #171a20;
+      background:
+        rgba(255,255,255,.93);
 
-      backdrop-filter: blur(10px);
+      color: #171a20;
     }
 
-
-
-    /* =========================================================
-       VIDEO CONTROL
-    ========================================================= */
 
     .video-control {
       position: absolute;
 
-      right: 28px;
-      bottom: 30px;
+      right: 26px;
+      bottom: 25px;
 
       z-index: 5;
 
-      width: 45px;
-      height: 45px;
+      width: 44px;
+      height: 44px;
 
-      border: 1px solid rgba(255,255,255,0.4);
+      border:
+        1px solid rgba(255,255,255,.35);
+
       border-radius: 50%;
 
-      background: rgba(0,0,0,0.25);
+      background:
+        rgba(0,0,0,.25);
 
       color: white;
 
       backdrop-filter: blur(10px);
-
-      display: flex;
-      align-items: center;
-      justify-content: center;
-
-      transition:
-        transform 0.25s ease,
-        background 0.25s ease;
-    }
-
-
-    .video-control:hover {
-      transform: scale(1.08);
-
-      background: rgba(0,0,0,0.45);
     }
 
 
 
     /* =========================================================
-       SCROLL ARROW
-    ========================================================= */
-
-    .scroll-arrow {
-      position: absolute;
-
-      bottom: 25px;
-      left: 50%;
-
-      transform: translateX(-50%);
-
-      z-index: 4;
-
-      color: white;
-
-      text-decoration: none;
-
-      font-size: 36px;
-
-      animation: bounce 1.6s infinite;
-    }
-
-
-    @keyframes bounce {
-
-      0%, 100% {
-        transform: translate(-50%, 0);
-      }
-
-      50% {
-        transform: translate(-50%, 9px);
-      }
-
-    }
-
-
-
-    /* =========================================================
-       SECTION GENERAL
+       NORMAL SECTIONS
     ========================================================= */
 
     .section {
       min-height: 100vh;
 
+      padding:
+        120px 7%;
+
       display: flex;
       align-items: center;
       justify-content: center;
 
-      padding: 100px 8%;
+      background: var(--bg);
+
+      transition:
+        background .5s ease,
+        color .5s ease;
     }
 
 
     .section-inner {
       width: 100%;
-
       max-width: 1250px;
     }
 
 
-    .section-title {
-      text-align: center;
+    .section-header {
+      max-width: 750px;
 
-      margin-bottom: 65px;
+      margin:
+        0 auto 55px;
+
+      text-align: center;
     }
 
 
-    .section-title span {
-      font-size: 14px;
+    .eyebrow {
+      color: var(--accent);
 
-      text-transform: uppercase;
+      font-size: 13px;
+      font-weight: 700;
 
       letter-spacing: 3px;
-
-      color: #6b6d70;
     }
 
 
-    .section-title h2 {
+    .section-header h2 {
       margin-top: 12px;
 
-      font-size: clamp(38px, 5vw, 64px);
+      font-size:
+        clamp(40px,5vw,65px);
 
       letter-spacing: -2px;
     }
 
 
-    .section-title p {
-      margin: 20px auto 0;
+    .section-header p {
+      margin-top: 18px;
 
-      max-width: 680px;
+      color: var(--muted);
 
       font-size: 18px;
       line-height: 1.6;
+    }
 
-      color: #5c5e62;
+
+
+    /* =========================================================
+       MODEL SWITCHER
+    ========================================================= */
+
+    .model-switcher {
+      display: flex;
+
+      width: max-content;
+
+      max-width: 100%;
+
+      margin:
+        0 auto 45px;
+
+      padding: 6px;
+
+      gap: 6px;
+
+      border:
+        1px solid var(--border);
+
+      border-radius: 14px;
+
+      background: var(--card);
+
+      box-shadow:
+        0 10px 40px rgba(0,0,0,.05);
+    }
+
+
+    .model-button {
+      width: 80px;
+
+      padding: 12px 15px;
+
+      border: none;
+      border-radius: 10px;
+
+      background: transparent;
+
+      color: var(--muted);
+
+      font-weight: 700;
+
+      transition:
+        background .3s ease,
+        color .3s ease,
+        transform .2s ease;
+    }
+
+
+    .model-button:hover {
+      transform:
+        translateY(-2px);
+    }
+
+
+    .model-button.active {
+      background: var(--accent);
+
+      color: white;
+
+      box-shadow:
+        0 8px 24px
+        color-mix(
+          in srgb,
+          var(--accent) 35%,
+          transparent
+        );
+    }
+
+
+
+    /* =========================================================
+       MODEL NAME
+    ========================================================= */
+
+    .selected-model-name {
+      text-align: center;
+
+      margin-bottom: 35px;
+
+      font-size: 28px;
+      font-weight: 700;
     }
 
 
@@ -565,77 +847,200 @@
        SPECS
     ========================================================= */
 
-    .performance {
-      background: #f5f5f5;
-    }
-
-
     .spec-grid {
       display: grid;
 
-      grid-template-columns: repeat(3, 1fr);
+      grid-template-columns:
+        repeat(3,1fr);
 
-      gap: 25px;
+      gap: 20px;
     }
 
 
     .spec-card {
-      background: white;
+      padding:
+        42px 25px;
 
-      border-radius: 18px;
+      border:
+        1px solid var(--border);
 
-      padding: 45px 30px;
+      border-radius: 20px;
+
+      background: var(--card);
+
+      box-shadow: var(--shadow);
 
       text-align: center;
 
-      box-shadow: 0 10px 40px rgba(0,0,0,0.05);
-
       transition:
-        transform 0.3s ease,
-        box-shadow 0.3s ease;
+        transform .3s ease,
+        background .5s ease,
+        border .5s ease;
     }
 
 
     .spec-card:hover {
-      transform: translateY(-8px);
-
-      box-shadow: 0 20px 50px rgba(0,0,0,0.1);
-    }
-
-
-    .spec-icon {
-      margin-bottom: 25px;
-    }
-
-
-    .spec-icon svg {
-      width: 38px;
-      height: 38px;
-
-      stroke: #171a20;
+      transform:
+        translateY(-7px);
     }
 
 
     .spec-number {
-      font-size: 55px;
-      font-weight: 600;
+      font-size:
+        clamp(45px,5vw,65px);
 
-      letter-spacing: -2px;
+      font-weight: 700;
+
+      letter-spacing: -3px;
     }
 
 
     .spec-unit {
-      font-size: 20px;
-      font-weight: 500;
+      font-size: 19px;
+      font-weight: 600;
     }
 
 
     .spec-label {
       margin-top: 8px;
 
-      color: #6b6d70;
+      color: var(--muted);
+    }
 
-      font-size: 15px;
+
+
+    /* =========================================================
+       COMPARISON
+    ========================================================= */
+
+    .comparison {
+      margin-top: 70px;
+
+      padding: 40px;
+
+      border:
+        1px solid var(--border);
+
+      border-radius: 24px;
+
+      background: var(--card);
+
+      box-shadow: var(--shadow);
+    }
+
+
+    .comparison h3 {
+      font-size: 28px;
+
+      margin-bottom: 30px;
+    }
+
+
+    .comparison-table {
+      width: 100%;
+
+      border-collapse: collapse;
+    }
+
+
+    .comparison-table th,
+    .comparison-table td {
+      padding: 17px 12px;
+
+      text-align: center;
+
+      border-bottom:
+        1px solid var(--border);
+
+      transition:
+        background .3s ease,
+        color .3s ease;
+    }
+
+
+    .comparison-table th:first-child,
+    .comparison-table td:first-child {
+      text-align: left;
+    }
+
+
+    .comparison-table .selected-column {
+      background:
+        color-mix(
+          in srgb,
+          var(--accent) 12%,
+          transparent
+        );
+
+      color: var(--text);
+
+      font-weight: 700;
+    }
+
+
+
+    /* =========================================================
+       PERFORMANCE VISUAL BARS
+    ========================================================= */
+
+    .bars {
+      margin-top: 45px;
+    }
+
+
+    .bar-group {
+      margin-bottom: 25px;
+    }
+
+
+    .bar-info {
+      display: flex;
+      justify-content: space-between;
+
+      margin-bottom: 8px;
+
+      font-size: 14px;
+    }
+
+
+    .bar-track {
+      height: 8px;
+
+      border-radius: 20px;
+
+      background: var(--bg-soft);
+
+      overflow: hidden;
+    }
+
+
+    .bar-value {
+      width: 0;
+      height: 100%;
+
+      border-radius: 20px;
+
+      background:
+        linear-gradient(
+          90deg,
+          var(--accent),
+          color-mix(
+            in srgb,
+            var(--accent) 55%,
+            white
+          )
+        );
+
+      box-shadow:
+        0 0 18px
+        color-mix(
+          in srgb,
+          var(--accent) 45%,
+          transparent
+        );
+
+      transition:
+        width .8s cubic-bezier(.2,.8,.2,1);
     }
 
 
@@ -645,77 +1050,99 @@
     ========================================================= */
 
     .technology {
-      background: #111;
+      background: #08090b;
       color: white;
     }
 
 
-    .technology .section-title span,
-    .technology .section-title p {
-      color: #aaa;
+    .technology .section-header p {
+      color: #9b9da2;
     }
 
 
-    .technology-grid {
+    .tech-grid {
       display: grid;
 
-      grid-template-columns: repeat(3, 1fr);
+      grid-template-columns:
+        repeat(3,1fr);
 
-      gap: 22px;
+      gap: 20px;
     }
 
 
     .tech-card {
-      padding: 40px;
+      min-height: 230px;
 
-      border: 1px solid rgba(255,255,255,0.12);
+      padding: 38px;
 
-      border-radius: 18px;
+      border-radius: 20px;
 
-      background: rgba(255,255,255,0.04);
+      border:
+        1px solid
+        rgba(255,255,255,.1);
+
+      background:
+        linear-gradient(
+          145deg,
+          rgba(255,255,255,.07),
+          rgba(255,255,255,.02)
+        );
 
       transition:
-        transform 0.3s ease,
-        background 0.3s ease;
+        transform .3s ease,
+        background .3s ease;
     }
 
 
     .tech-card:hover {
-      transform: translateY(-8px);
+      transform:
+        translateY(-7px);
 
-      background: rgba(255,255,255,0.08);
+      background:
+        rgba(255,255,255,.09);
+    }
+
+
+    .tech-card .number {
+      color: var(--accent);
+
+      font-size: 13px;
+
+      letter-spacing: 2px;
     }
 
 
     .tech-card h3 {
-      margin-bottom: 15px;
+      margin-top: 30px;
 
-      font-size: 25px;
+      font-size: 27px;
     }
 
 
     .tech-card p {
-      color: #aaa;
+      margin-top: 15px;
 
-      line-height: 1.6;
+      line-height: 1.65;
+
+      color: #aaa;
     }
 
 
 
     /* =========================================================
-       FINAL CTA
+       EXPERIENCE
     ========================================================= */
 
     .experience {
-      min-height: 75vh;
+      min-height: 80vh;
 
       text-align: center;
 
       background:
         radial-gradient(
           circle at center,
-          #262626 0%,
-          #0c0c0c 65%
+          #25262a,
+          #070708 65%
         );
 
       color: white;
@@ -723,102 +1150,133 @@
 
 
     .experience h2 {
-      font-size: clamp(45px, 6vw, 75px);
+      font-size:
+        clamp(50px,7vw,85px);
 
-      margin-bottom: 15px;
+      letter-spacing: -3px;
     }
 
 
     .experience p {
+      margin:
+        15px 0 35px;
+
       color: #aaa;
 
       font-size: 19px;
-
-      margin-bottom: 35px;
     }
 
 
 
     /* =========================================================
-       SCROLL REVEAL
+       REVEAL
     ========================================================= */
 
     .reveal {
       opacity: 0;
 
-      transform: translateY(50px);
+      transform:
+        translateY(45px);
 
       transition:
-        opacity 0.8s ease,
-        transform 0.8s ease;
+        opacity .8s ease,
+        transform .8s ease;
     }
 
 
     .reveal.visible {
       opacity: 1;
 
-      transform: translateY(0);
+      transform:
+        translateY(0);
     }
 
 
 
     /* =========================================================
-       MOBILE MENU
+       BOTTOM NAV MOBILE
     ========================================================= */
 
-    .mobile-menu {
+    .bottom-nav {
+      display: none;
+
       position: fixed;
 
-      inset: 0;
+      z-index: 4500;
 
-      z-index: 2000;
+      left: 50%;
+      bottom: 16px;
 
-      background: white;
+      transform:
+        translateX(-50%);
 
-      transform: translateX(100%);
+      width:
+        calc(100% - 28px);
 
-      transition: transform 0.4s ease;
+      max-width: 480px;
 
-      padding: 90px 30px 40px;
+      height: 67px;
+
+      padding: 7px;
+
+      border:
+        1px solid
+        rgba(255,255,255,.09);
+
+      border-radius: 22px;
+
+      background:
+        rgba(15,15,17,.78);
+
+      backdrop-filter:
+        blur(22px);
+
+      -webkit-backdrop-filter:
+        blur(22px);
+
+      box-shadow:
+        0 15px 50px
+        rgba(0,0,0,.3);
     }
 
 
-    .mobile-menu.open {
-      transform: translateX(0);
-    }
-
-
-    .mobile-menu a {
-      display: block;
-
-      padding: 18px 10px;
-
-      border-bottom: 1px solid #eee;
-
-      text-decoration: none;
-
-      color: #171a20;
-
-      font-size: 20px;
-      font-weight: 500;
-    }
-
-
-    .mobile-close {
-      position: absolute;
-
-      top: 22px;
-      right: 25px;
-
-      width: 45px;
-      height: 45px;
+    .bottom-nav button {
+      flex: 1;
 
       border: none;
-      border-radius: 50%;
 
-      background: #f3f3f3;
+      border-radius: 16px;
 
-      font-size: 24px;
+      background: transparent;
+
+      color: #9c9da3;
+
+      font-size: 11px;
+
+      display: flex;
+      flex-direction: column;
+
+      align-items: center;
+      justify-content: center;
+
+      gap: 4px;
+
+      transition:
+        color .25s ease,
+        background .25s ease;
+    }
+
+
+    .bottom-nav .nav-symbol {
+      font-size: 18px;
+    }
+
+
+    .bottom-nav button.active {
+      color: white;
+
+      background:
+        rgba(255,255,255,.09);
     }
 
 
@@ -832,11 +1290,7 @@
 
       inset: 0;
 
-      z-index: 3000;
-
-      background: rgba(0,0,0,0.55);
-
-      backdrop-filter: blur(10px);
+      z-index: 10000;
 
       display: flex;
       align-items: center;
@@ -844,15 +1298,24 @@
 
       padding: 20px;
 
+      background:
+        rgba(0,0,0,.60);
+
+      backdrop-filter:
+        blur(15px);
+
       opacity: 0;
+
       pointer-events: none;
 
-      transition: opacity 0.3s ease;
+      transition:
+        opacity .3s ease;
     }
 
 
     .modal.open {
       opacity: 1;
+
       pointer-events: auto;
     }
 
@@ -860,36 +1323,35 @@
     .modal-box {
       position: relative;
 
-      width: min(500px, 100%);
+      width:
+        min(500px,100%);
 
       padding: 40px;
 
-      border-radius: 18px;
+      border-radius: 23px;
 
-      background: white;
+      background: var(--card);
 
-      transform: translateY(20px) scale(0.97);
+      color: var(--text);
 
-      transition: transform 0.3s ease;
+      box-shadow:
+        0 30px 100px
+        rgba(0,0,0,.35);
+
+      transform:
+        translateY(20px)
+        scale(.97);
+
+      transition:
+        transform .3s ease,
+        background .5s ease;
     }
 
 
     .modal.open .modal-box {
-      transform: translateY(0) scale(1);
-    }
-
-
-    .modal-box h2 {
-      margin-bottom: 8px;
-
-      font-size: 31px;
-    }
-
-
-    .modal-box > p {
-      color: #666;
-
-      margin-bottom: 28px;
+      transform:
+        translateY(0)
+        scale(1);
     }
 
 
@@ -905,14 +1367,29 @@
       border: none;
       border-radius: 50%;
 
-      background: #eee;
+      background: var(--bg-soft);
+
+      color: var(--text);
 
       font-size: 20px;
     }
 
 
+    .modal-box h2 {
+      font-size: 32px;
+    }
+
+
+    .modal-box > p {
+      margin:
+        7px 0 25px;
+
+      color: var(--muted);
+    }
+
+
     .form-group {
-      margin-bottom: 17px;
+      margin-bottom: 16px;
     }
 
 
@@ -921,8 +1398,8 @@
 
       margin-bottom: 7px;
 
-      font-size: 14px;
-      font-weight: 600;
+      font-size: 13px;
+      font-weight: 700;
     }
 
 
@@ -930,54 +1407,161 @@
     .form-group select {
       width: 100%;
 
-      padding: 13px 14px;
+      padding: 14px;
 
-      border: 1px solid #ccc;
-      border-radius: 7px;
+      border:
+        1px solid var(--border);
+
+      border-radius: 8px;
+
+      background: var(--bg);
+
+      color: var(--text);
 
       outline: none;
-
-      transition: border 0.2s ease;
-    }
-
-
-    .form-group input:focus,
-    .form-group select:focus {
-      border-color: #3e6ae1;
     }
 
 
     .submit-btn {
       width: 100%;
 
-      margin-top: 8px;
+      margin-top: 6px;
 
       padding: 14px;
 
       border: none;
-      border-radius: 6px;
+      border-radius: 8px;
 
-      background: #3e6ae1;
+      background: var(--accent);
       color: white;
 
-      font-weight: 600;
+      font-weight: 700;
     }
 
 
-    .success {
-      display: none;
 
-      padding: 15px;
+    /* =========================================================
+       LUDICROUS EASTER EGG
+    ========================================================= */
 
+    .ludicrous-overlay {
+      position: fixed;
+
+      inset: 0;
+
+      z-index: 999999;
+
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      background:
+        radial-gradient(
+          circle at center,
+          rgba(180,0,0,.65),
+          rgba(0,0,0,.97) 60%
+        );
+
+      color: white;
+
+      opacity: 0;
+
+      pointer-events: none;
+
+      transition:
+        opacity .25s ease;
+    }
+
+
+    .ludicrous-overlay.active {
+      opacity: 1;
+    }
+
+
+    .ludicrous-content {
+      text-align: center;
+
+      transform:
+        scale(.8);
+
+      opacity: 0;
+    }
+
+
+    .ludicrous-overlay.active
+    .ludicrous-content {
+      animation:
+        ludicrousEnter .6s ease forwards;
+    }
+
+
+    @keyframes ludicrousEnter {
+
+      60% {
+        transform: scale(1.07);
+        opacity: 1;
+      }
+
+      100% {
+        transform: scale(1);
+        opacity: 1;
+      }
+
+    }
+
+
+    .ludicrous-content h1 {
+      font-size:
+        clamp(50px,8vw,110px);
+
+      letter-spacing: 8px;
+
+      text-shadow:
+        0 0 25px #ff1a1a,
+        0 0 80px #ff0000;
+    }
+
+
+    .ludicrous-content p {
       margin-top: 15px;
 
-      border-radius: 7px;
+      letter-spacing: 5px;
 
-      background: #edf8ef;
+      font-size: 14px;
+    }
 
-      color: #276c36;
 
-      text-align: center;
+    .ludicrous-line {
+      width: 0;
+      height: 2px;
+
+      margin:
+        30px auto;
+
+      background: white;
+
+      box-shadow:
+        0 0 25px red;
+
+      animation:
+        ludicrousLine 1.2s ease
+        .3s forwards;
+    }
+
+
+    @keyframes ludicrousLine {
+
+      to {
+        width: 80%;
+      }
+
+    }
+
+
+    body.ludicrous .spec-number {
+      text-shadow:
+        0 0 20px
+        var(--accent);
     }
 
 
@@ -987,11 +1571,13 @@
     ========================================================= */
 
     footer {
-      padding: 35px 20px;
+      padding:
+        40px 20px 110px;
 
       text-align: center;
 
-      background: #080808;
+      background: #060607;
+
       color: #777;
 
       font-size: 13px;
@@ -1003,121 +1589,140 @@
        RESPONSIVE
     ========================================================= */
 
-    .mobile-menu-button {
-      display: none;
-    }
-
-
-    @media (max-width: 1050px) {
+    @media (max-width: 900px) {
 
       header {
-        padding: 0 25px;
+        height: 60px;
+
+        padding:
+          0 18px;
       }
+
+
+      .logo {
+        width: 115px;
+      }
+
 
       .desktop-nav {
         display: none;
       }
 
-      .desktop-icons {
-        display: none;
-      }
 
-      .mobile-menu-button {
-        display: block;
-
-        border: none;
-
-        padding: 10px 16px;
-
-        border-radius: 6px;
-
-        background: rgba(255,255,255,0.15);
-
-        color: inherit;
-
-        font-weight: 600;
-      }
-
-
-      header.scrolled .mobile-menu-button {
-        background: #f2f2f2;
+      .dynamic-island {
+        top: 68px;
       }
 
 
       .spec-grid,
-      .technology-grid {
+      .tech-grid {
         grid-template-columns: 1fr;
+      }
+
+
+      .bottom-nav {
+        display: flex;
+      }
+
+
+      .comparison {
+        overflow-x: auto;
+
+        padding: 25px 18px;
+      }
+
+
+      .comparison-table {
+        min-width: 680px;
+      }
+
+
+      footer {
+        padding-bottom: 110px;
       }
 
     }
 
 
-    @media (max-width: 650px) {
 
-      header {
-        height: 60px;
+    @media (max-width: 600px) {
 
-        padding: 0 18px;
+      .header-controls {
+        gap: 0;
       }
 
 
-      .logo {
-        width: 120px;
+      .icon-btn {
+        width: 37px;
+        height: 37px;
+      }
+
+
+      .dynamic-island {
+        width: 205px;
+        height: 43px;
+      }
+
+
+      .dynamic-island.expanded {
+        width:
+          calc(100% - 30px);
+
+        max-width: 370px;
+
+        height: 225px;
       }
 
 
       .hero-content {
-        margin-top: -80px;
+        margin-top: -110px;
       }
 
 
       .hero-content h1 {
-        letter-spacing: -1px;
+        letter-spacing: -2px;
       }
 
 
       .hero-buttons {
-        width: calc(100% - 35px);
-
-        bottom: 75px;
+        width:
+          calc(100% - 32px);
 
         flex-direction: column;
+
+        bottom: 95px;
       }
 
 
-      .hero-btn {
+      .main-btn {
         width: 100%;
       }
 
 
-      .scroll-arrow {
+      .video-control {
         display: none;
       }
 
 
-      .video-control {
-        right: 17px;
-        bottom: 17px;
-      }
-
-
       .section {
-        padding: 85px 20px;
+        padding:
+          100px 20px;
       }
 
 
-      .section-title {
-        margin-bottom: 45px;
+      .model-switcher {
+        width: 100%;
       }
 
 
-      .spec-number {
-        font-size: 46px;
+      .model-button {
+        width: auto;
+        flex: 1;
       }
 
 
-      .modal-box {
-        padding: 32px 24px;
+      .comparison h3 {
+        font-size: 24px;
       }
 
     }
@@ -1126,13 +1731,19 @@
 </head>
 
 
-
 <body>
 
 
-  <!-- ======================================================
+
+  <!-- PAGE TRANSITION -->
+
+  <div id="transitionLine"></div>
+
+
+
+  <!-- =====================================================
        HEADER
-  ======================================================= -->
+  ====================================================== -->
 
   <header id="header">
 
@@ -1141,10 +1752,12 @@
       <img
         src="./tesla remove img.png"
         class="logo"
+        id="teslaLogo"
         alt="Tesla"
       >
 
     </a>
+
 
 
     <nav class="desktop-nav">
@@ -1152,25 +1765,37 @@
       <ul>
 
         <li>
-          <a href="#home" class="nav-link active">
+          <a
+            href="#home"
+            class="nav-link js-nav active"
+          >
             Home
           </a>
         </li>
 
         <li>
-          <a href="#performance" class="nav-link">
-            Performance
+          <a
+            href="#performance"
+            class="nav-link js-nav"
+          >
+            Models
           </a>
         </li>
 
         <li>
-          <a href="#technology" class="nav-link">
+          <a
+            href="#technology"
+            class="nav-link js-nav"
+          >
             Technology
           </a>
         </li>
 
         <li>
-          <a href="#experience" class="nav-link">
+          <a
+            href="#experience"
+            class="nav-link js-nav"
+          >
             Experience
           </a>
         </li>
@@ -1181,110 +1806,132 @@
 
 
 
-    <div class="right-menu desktop-icons">
+    <div class="header-controls">
 
-
-      <!-- WORLD ICON -->
-
-      <button class="icon-button" title="Language">
-
-        <svg
-          viewBox="0 0 24 24"
-          fill="none"
-          stroke-width="1.7"
-        >
-
-          <circle cx="12" cy="12" r="9"></circle>
-
-          <path d="M3 12h18"></path>
-
-          <path d="M12 3a15 15 0 0 1 0 18"></path>
-
-          <path d="M12 3a15 15 0 0 0 0 18"></path>
-
-        </svg>
-
+      <button
+        class="icon-btn"
+        id="themeButton"
+        title="Dark mode"
+      >
+        ☾
       </button>
 
 
-
-      <!-- USER -->
-
-      <button class="icon-button" title="Account">
-
-        <svg
-          viewBox="0 0 24 24"
-          fill="none"
-          stroke-width="1.7"
-        >
-
-          <circle cx="12" cy="8" r="4"></circle>
-
-          <path d="M4 21c1-5 4-7 8-7s7 2 8 7"></path>
-
-        </svg>
-
+      <button
+        class="icon-btn"
+        id="soundButton"
+        title="Sound"
+      >
+        ♫
       </button>
 
     </div>
-
-
-
-    <button
-      class="mobile-menu-button"
-      onclick="openMenu()"
-    >
-      Menu
-    </button>
 
   </header>
 
 
 
-  <!-- ======================================================
-       MOBILE MENU
-  ======================================================= -->
+  <!-- =====================================================
+       DYNAMIC ISLAND
+  ====================================================== -->
 
-  <div class="mobile-menu" id="mobileMenu">
+  <div
+    class="dynamic-island"
+    id="dynamicIsland"
+  >
 
-    <button
-      class="mobile-close"
-      onclick="closeMenu()"
-    >
-      ×
-    </button>
+    <div class="island-small">
+
+      <div class="island-left">
+
+        <div class="status-dot"></div>
+
+        <span
+          class="island-model"
+          id="islandModel"
+        >
+          MODEL S
+        </span>
+
+      </div>
 
 
-    <a href="#home" onclick="closeMenu()">
-      Home
-    </a>
+      <span
+        class="connected"
+        id="islandStatus"
+      >
+        CONNECTED
+      </span>
 
-    <a href="#performance" onclick="closeMenu()">
-      Performance
-    </a>
+    </div>
 
-    <a href="#technology" onclick="closeMenu()">
-      Technology
-    </a>
 
-    <a href="#experience" onclick="closeMenu()">
-      Experience
-    </a>
 
-    <a href="#" onclick="openModal(); closeMenu();">
-      Demo Drive
-    </a>
+    <div class="island-details">
+
+      <div
+        class="island-title"
+        id="islandTitle"
+      >
+        Model S
+      </div>
+
+
+      <div class="island-row">
+
+        <span>Battery</span>
+
+        <strong>87%</strong>
+
+      </div>
+
+
+      <div class="island-row">
+
+        <span>Estimated Range</span>
+
+        <strong id="islandRange">
+          652 km
+        </strong>
+
+      </div>
+
+
+      <div class="island-row">
+
+        <span>Drive Mode</span>
+
+        <strong>
+          Sport
+        </strong>
+
+      </div>
+
+
+      <div class="island-row">
+
+        <span>System</span>
+
+        <strong>
+          READY ✓
+        </strong>
+
+      </div>
+
+    </div>
 
   </div>
 
 
 
-  <!-- ======================================================
+  <!-- =====================================================
        HERO
-  ======================================================= -->
+  ====================================================== -->
 
-  <section class="hero" id="home">
-
+  <section
+    class="hero"
+    id="home"
+  >
 
     <video
       class="hero-video"
@@ -1303,7 +1950,6 @@
     </video>
 
 
-
     <div class="video-overlay"></div>
 
 
@@ -1314,16 +1960,9 @@
         Experience Tesla
       </h1>
 
-
       <h2>
-
-        <span
-          class="changing-text"
-          id="changingText"
-        >
-          Schedule a Demo Drive
-        </span>
-
+        Electric performance.
+        Reimagined.
       </h2>
 
     </div>
@@ -1333,15 +1972,15 @@
     <div class="hero-buttons">
 
       <button
-        class="hero-btn primary"
-        onclick="document.getElementById('performance').scrollIntoView()"
+        class="main-btn primary"
+        onclick="navigateTo('performance')"
       >
-        Explore Performance
+        Explore Models
       </button>
 
 
       <button
-        class="hero-btn secondary"
+        class="main-btn secondary"
         onclick="openModal()"
       >
         Demo Drive
@@ -1351,21 +1990,10 @@
 
 
 
-    <a
-      href="#performance"
-      class="scroll-arrow"
-      aria-label="Scroll down"
-    >
-     ⌄
-    </a>
-
-
-
     <button
       class="video-control"
       id="videoButton"
       onclick="toggleVideo()"
-      aria-label="Pause video"
     >
       ❚❚
     </button>
@@ -1374,69 +2002,101 @@
 
 
 
-  <!-- ======================================================
-       PERFORMANCE
-  ======================================================= -->
+  <!-- =====================================================
+       PERFORMANCE / MODEL SWITCHER
+  ====================================================== -->
 
   <section
-    class="section performance"
+    class="section"
     id="performance"
   >
 
     <div class="section-inner">
 
 
-      <div class="section-title reveal">
+      <div class="section-header reveal">
 
-        <span>
-          Performance
-        </span>
+        <div class="eyebrow">
+          SELECT YOUR EXPERIENCE
+        </div>
 
         <h2>
-          Built for the road.
+          Choose your Tesla.
         </h2>
 
         <p>
-          Instant acceleration, electric power and technology
-          designed to make every drive feel effortless.
+          Switch between models and watch the
+          entire interface update instantly.
         </p>
 
       </div>
 
 
 
+      <!-- MODEL SWITCHER -->
+
+      <div
+        class="model-switcher reveal"
+        id="modelSwitcher"
+      >
+
+        <button
+          class="model-button active"
+          data-model="S"
+        >
+          S
+        </button>
+
+
+        <button
+          class="model-button"
+          data-model="3"
+        >
+          3
+        </button>
+
+
+        <button
+          class="model-button"
+          data-model="X"
+        >
+          X
+        </button>
+
+
+        <button
+          class="model-button"
+          data-model="Y"
+        >
+          Y
+        </button>
+
+      </div>
+
+
+
+      <div
+        class="selected-model-name reveal"
+        id="selectedModelName"
+      >
+        Model S
+      </div>
+
+
+
+      <!-- SPECS -->
+
       <div class="spec-grid">
 
-
-        <!-- ACCELERATION -->
-
         <div class="spec-card reveal">
-
-          <div class="spec-icon">
-
-            <svg
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke-width="1.5"
-            >
-
-              <path d="M4 17a8 8 0 1 1 16 0"></path>
-
-              <path d="M12 13l4-5"></path>
-
-            </svg>
-
-          </div>
-
 
           <div>
 
             <span
-              class="spec-number counter"
-              data-target="3.7"
-              data-decimals="1"
+              class="spec-number"
+              id="accelNumber"
             >
-              0
+              2.1
             </span>
 
             <span class="spec-unit">
@@ -1444,7 +2104,6 @@
             </span>
 
           </div>
-
 
           <div class="spec-label">
             0–100 km/h
@@ -1454,35 +2113,15 @@
 
 
 
-        <!-- SPEED -->
-
         <div class="spec-card reveal">
-
-          <div class="spec-icon">
-
-            <svg
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke-width="1.5"
-            >
-
-              <circle cx="12" cy="12" r="9"></circle>
-
-              <path d="M12 12l5-3"></path>
-
-            </svg>
-
-          </div>
-
 
           <div>
 
             <span
-              class="spec-number counter"
-              data-target="250"
-              data-decimals="0"
+              class="spec-number"
+              id="speedNumber"
             >
-              0
+              322
             </span>
 
             <span class="spec-unit">
@@ -1490,7 +2129,6 @@
             </span>
 
           </div>
-
 
           <div class="spec-label">
             Top Speed
@@ -1500,37 +2138,15 @@
 
 
 
-        <!-- RANGE -->
-
         <div class="spec-card reveal">
-
-          <div class="spec-icon">
-
-            <svg
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke-width="1.5"
-            >
-
-              <path d="M5 12h14"></path>
-
-              <path d="M15 8l4 4-4 4"></path>
-
-              <path d="M9 8l-4 4 4 4"></path>
-
-            </svg>
-
-          </div>
-
 
           <div>
 
             <span
-              class="spec-number counter"
-              data-target="533"
-              data-decimals="0"
+              class="spec-number"
+              id="rangeNumber"
             >
-              0
+              652
             </span>
 
             <span class="spec-unit">
@@ -1539,13 +2155,222 @@
 
           </div>
 
-
           <div class="spec-label">
             Estimated Range
           </div>
 
         </div>
 
+      </div>
+
+
+
+      <!-- COMPARISON -->
+
+      <div class="comparison reveal">
+
+        <h3>
+          Interactive Comparison
+        </h3>
+
+
+        <table class="comparison-table">
+
+          <thead>
+
+            <tr>
+
+              <th>
+                Specification
+              </th>
+
+              <th data-column="S">
+                Model S
+              </th>
+
+              <th data-column="3">
+                Model 3
+              </th>
+
+              <th data-column="X">
+                Model X
+              </th>
+
+              <th data-column="Y">
+                Model Y
+              </th>
+
+            </tr>
+
+          </thead>
+
+
+          <tbody>
+
+            <tr>
+
+              <td>
+                0–100 km/h
+              </td>
+
+              <td data-column="S">
+                2.1 s
+              </td>
+
+              <td data-column="3">
+                3.1 s
+              </td>
+
+              <td data-column="X">
+                2.6 s
+              </td>
+
+              <td data-column="Y">
+                3.5 s
+              </td>
+
+            </tr>
+
+
+            <tr>
+
+              <td>
+                Top Speed
+              </td>
+
+              <td data-column="S">
+                322 km/h
+              </td>
+
+              <td data-column="3">
+                261 km/h
+              </td>
+
+              <td data-column="X">
+                262 km/h
+              </td>
+
+              <td data-column="Y">
+                250 km/h
+              </td>
+
+            </tr>
+
+
+            <tr>
+
+              <td>
+                Range
+              </td>
+
+              <td data-column="S">
+                652 km
+              </td>
+
+              <td data-column="3">
+                548 km
+              </td>
+
+              <td data-column="X">
+                625 km
+              </td>
+
+              <td data-column="Y">
+                533 km
+              </td>
+
+            </tr>
+
+          </tbody>
+
+        </table>
+
+
+
+        <!-- VISUAL BARS -->
+
+        <div class="bars">
+
+          <div class="bar-group">
+
+            <div class="bar-info">
+
+              <span>
+                Acceleration
+              </span>
+
+              <span id="accelPercent">
+                100%
+              </span>
+
+            </div>
+
+            <div class="bar-track">
+
+              <div
+                class="bar-value"
+                id="accelBar"
+              ></div>
+
+            </div>
+
+          </div>
+
+
+
+          <div class="bar-group">
+
+            <div class="bar-info">
+
+              <span>
+                Top Speed
+              </span>
+
+              <span id="speedPercent">
+                100%
+              </span>
+
+            </div>
+
+            <div class="bar-track">
+
+              <div
+                class="bar-value"
+                id="speedBar"
+              ></div>
+
+            </div>
+
+          </div>
+
+
+
+          <div class="bar-group">
+
+            <div class="bar-info">
+
+              <span>
+                Range
+              </span>
+
+              <span id="rangePercent">
+                100%
+              </span>
+
+            </div>
+
+            <div class="bar-track">
+
+              <div
+                class="bar-value"
+                id="rangeBar"
+              ></div>
+
+            </div>
+
+          </div>
+
+        </div>
 
       </div>
 
@@ -1555,9 +2380,9 @@
 
 
 
-  <!-- ======================================================
+  <!-- =====================================================
        TECHNOLOGY
-  ======================================================= -->
+  ====================================================== -->
 
   <section
     class="section technology"
@@ -1566,72 +2391,81 @@
 
     <div class="section-inner">
 
+      <div class="section-header reveal">
 
-      <div class="section-title reveal">
-
-        <span>
-          Technology
-        </span>
+        <div class="eyebrow">
+          TESLA INTELLIGENCE
+        </div>
 
         <h2>
-          Electric intelligence.
+          Technology in motion.
         </h2>
 
         <p>
-          Designed around software, efficiency and an
-          increasingly connected driving experience.
+          Electric performance,
+          intelligent systems and software
+          designed to work as one.
         </p>
 
       </div>
 
 
 
-      <div class="technology-grid">
-
+      <div class="tech-grid">
 
         <div class="tech-card reveal">
 
+          <span class="number">
+            01
+          </span>
+
           <h3>
-            Electric Performance
+            Instant Power
           </h3>
 
           <p>
-            Electric motors deliver immediate torque
-            with smooth and responsive acceleration.
+            Electric motors deliver immediate
+            torque with fast and smooth response.
           </p>
 
         </div>
 
 
-
         <div class="tech-card reveal">
 
+          <span class="number">
+            02
+          </span>
+
           <h3>
-            Smart Technology
+            Intelligent Software
           </h3>
 
           <p>
-            Software and intelligent systems work together
-            to create a modern driving experience.
+            Vehicle systems are integrated
+            through software for a connected
+            driving experience.
           </p>
 
         </div>
 
 
-
         <div class="tech-card reveal">
 
+          <span class="number">
+            03
+          </span>
+
           <h3>
-            Built for Efficiency
+            Energy Efficiency
           </h3>
 
           <p>
-            Aerodynamics, battery technology and energy
-            management help maximize every kilometer.
+            Battery management and aerodynamics
+            help maximize usable range.
           </p>
 
         </div>
-
 
       </div>
 
@@ -1641,9 +2475,9 @@
 
 
 
-  <!-- ======================================================
-       EXPERIENCE CTA
-  ======================================================= -->
+  <!-- =====================================================
+       EXPERIENCE
+  ====================================================== -->
 
   <section
     class="section experience"
@@ -1657,13 +2491,12 @@
       </h2>
 
       <p>
-        The best way to understand electric performance
-        is to drive it.
+        The future feels different
+        behind the wheel.
       </p>
 
-
       <button
-        class="hero-btn primary"
+        class="main-btn primary"
         onclick="openModal()"
       >
         Schedule Demo Drive
@@ -1675,14 +2508,91 @@
 
 
 
-  <!-- ======================================================
-       MODAL
-  ======================================================= -->
+  <!-- =====================================================
+       MOBILE BOTTOM NAV
+  ====================================================== -->
+
+  <nav class="bottom-nav">
+
+    <button
+      data-section="home"
+      class="bottom-link active"
+      onclick="navigateTo('home')"
+    >
+
+      <span class="nav-symbol">
+        ◉
+      </span>
+
+      <span>
+        Home
+      </span>
+
+    </button>
+
+
+
+    <button
+      data-section="performance"
+      class="bottom-link"
+      onclick="navigateTo('performance')"
+    >
+
+      <span class="nav-symbol">
+        ⚡
+      </span>
+
+      <span>
+        Models
+      </span>
+
+    </button>
+
+
+
+    <button
+      data-section="technology"
+      class="bottom-link"
+      onclick="navigateTo('technology')"
+    >
+
+      <span class="nav-symbol">
+        ◇
+      </span>
+
+      <span>
+        Tech
+      </span>
+
+    </button>
+
+
+
+    <button
+      onclick="openModal()"
+    >
+
+      <span class="nav-symbol">
+        +
+      </span>
+
+      <span>
+        Drive
+      </span>
+
+    </button>
+
+  </nav>
+
+
+
+  <!-- =====================================================
+       DEMO MODAL
+  ====================================================== -->
 
   <div
     class="modal"
     id="demoModal"
-    onclick="outsideModal(event)"
   >
 
     <div class="modal-box">
@@ -1700,13 +2610,15 @@
       </h2>
 
       <p>
-        Choose your vehicle and enter your information.
+        Currently selected:
+        <strong id="modalModel">
+          Model S
+        </strong>
       </p>
 
 
 
       <form id="demoForm">
-
 
         <div class="form-group">
 
@@ -1716,8 +2628,8 @@
 
           <input
             type="text"
-            required
             placeholder="Your name"
+            required
           >
 
         </div>
@@ -1732,8 +2644,8 @@
 
           <input
             type="email"
-            required
             placeholder="you@example.com"
+            required
           >
 
         </div>
@@ -1746,25 +2658,24 @@
             Vehicle
           </label>
 
-          <select required>
+          <select
+            id="modalSelect"
+            required
+          >
 
-            <option value="">
-              Select a model
-            </option>
-
-            <option>
+            <option value="S">
               Model S
             </option>
 
-            <option>
+            <option value="3">
               Model 3
             </option>
 
-            <option>
+            <option value="X">
               Model X
             </option>
 
-            <option>
+            <option value="Y">
               Model Y
             </option>
 
@@ -1775,21 +2686,11 @@
 
 
         <button
-          type="submit"
           class="submit-btn"
+          type="submit"
         >
           Request Demo Drive
         </button>
-
-
-
-        <div
-          class="success"
-          id="successMessage"
-        >
-          Request received ✓
-        </div>
-
 
       </form>
 
@@ -1799,36 +2700,449 @@
 
 
 
-  <!-- ======================================================
-       FOOTER
-  ======================================================= -->
+  <!-- =====================================================
+       EASTER EGG
+  ====================================================== -->
+
+  <div
+    class="ludicrous-overlay"
+    id="ludicrousOverlay"
+  >
+
+    <div class="ludicrous-content">
+
+      <h1>
+        LUDICROUS
+      </h1>
+
+      <div class="ludicrous-line"></div>
+
+      <p>
+        PERFORMANCE LIMITERS DISENGAGED
+      </p>
+
+    </div>
+
+  </div>
+
+
 
   <footer>
 
-    Tesla-inspired educational website · HTML, CSS & JavaScript
+    Tesla-inspired educational interface
+    · HTML · CSS · JavaScript
 
   </footer>
 
 
 
-  <!-- ======================================================
+  <!-- =====================================================
        JAVASCRIPT
-  ======================================================= -->
+  ====================================================== -->
 
   <script>
 
 
     /* =====================================================
-       HEADER ON SCROLL
+       MODEL DATABASE
+    ===================================================== */
+
+    const models = {
+
+      S: {
+
+        name: "Model S",
+
+        acceleration: 2.1,
+
+        speed: 322,
+
+        range: 652,
+
+        accent: "#3e6ae1"
+
+      },
+
+
+      3: {
+
+        name: "Model 3",
+
+        acceleration: 3.1,
+
+        speed: 261,
+
+        range: 548,
+
+        accent: "#8a5cf6"
+
+      },
+
+
+      X: {
+
+        name: "Model X",
+
+        acceleration: 2.6,
+
+        speed: 262,
+
+        range: 625,
+
+        accent: "#00a87e"
+
+      },
+
+
+      Y: {
+
+        name: "Model Y",
+
+        acceleration: 3.5,
+
+        speed: 250,
+
+        range: 533,
+
+        accent: "#dc4545"
+
+      }
+
+    };
+
+
+    let currentModel =
+      localStorage.getItem("tesla-model") || "S";
+
+
+    let soundEnabled =
+      localStorage.getItem("tesla-sound") !== "off";
+
+
+
+    /* =====================================================
+       ELEMENTS
     ===================================================== */
 
     const header =
       document.getElementById("header");
 
 
-    window.addEventListener("scroll", () => {
+    const island =
+      document.getElementById("dynamicIsland");
 
-      if (window.scrollY > 50) {
+
+    const islandModel =
+      document.getElementById("islandModel");
+
+
+    const islandTitle =
+      document.getElementById("islandTitle");
+
+
+    const islandRange =
+      document.getElementById("islandRange");
+
+
+    const islandStatus =
+      document.getElementById("islandStatus");
+
+
+    const accelNumber =
+      document.getElementById("accelNumber");
+
+
+    const speedNumber =
+      document.getElementById("speedNumber");
+
+
+    const rangeNumber =
+      document.getElementById("rangeNumber");
+
+
+    const modelName =
+      document.getElementById("selectedModelName");
+
+
+    const heroVideo =
+      document.getElementById("heroVideo");
+
+
+    const videoButton =
+      document.getElementById("videoButton");
+
+
+    const modal =
+      document.getElementById("demoModal");
+
+
+    const modalModel =
+      document.getElementById("modalModel");
+
+
+    const modalSelect =
+      document.getElementById("modalSelect");
+
+
+    const transitionLine =
+      document.getElementById("transitionLine");
+
+
+
+    /* =====================================================
+       SAFE LOCAL STORAGE
+    ===================================================== */
+
+    function saveSetting(key, value) {
+
+      try {
+
+        localStorage.setItem(key, value);
+
+      } catch (error) {}
+
+    }
+
+
+
+    /* =====================================================
+       AUDIO SYSTEM
+    ===================================================== */
+
+    let audioContext;
+
+
+    function getAudioContext() {
+
+      if (!audioContext) {
+
+        audioContext =
+          new (
+            window.AudioContext ||
+            window.webkitAudioContext
+          )();
+
+      }
+
+      return audioContext;
+
+    }
+
+
+    function tone(
+      startFrequency,
+      endFrequency,
+      duration = .13,
+      volume = .035
+    ) {
+
+      if (!soundEnabled) return;
+
+
+      const ctx =
+        getAudioContext();
+
+
+      const oscillator =
+        ctx.createOscillator();
+
+
+      const gain =
+        ctx.createGain();
+
+
+      oscillator.type =
+        "sine";
+
+
+      oscillator.frequency.setValueAtTime(
+        startFrequency,
+        ctx.currentTime
+      );
+
+
+      oscillator.frequency.exponentialRampToValueAtTime(
+        endFrequency,
+        ctx.currentTime + duration
+      );
+
+
+      gain.gain.setValueAtTime(
+        volume,
+        ctx.currentTime
+      );
+
+
+      gain.gain.exponentialRampToValueAtTime(
+        .0001,
+        ctx.currentTime + duration
+      );
+
+
+      oscillator.connect(gain);
+
+      gain.connect(ctx.destination);
+
+
+      oscillator.start();
+
+      oscillator.stop(
+        ctx.currentTime + duration
+      );
+
+    }
+
+
+    function sound(type) {
+
+      if (!soundEnabled) return;
+
+
+      if (type === "model") {
+
+        tone(430, 720, .12);
+
+      }
+
+
+      if (type === "nav") {
+
+        tone(680, 900, .08, .025);
+
+      }
+
+
+      if (type === "open") {
+
+        tone(240, 500, .15);
+
+      }
+
+
+      if (type === "theme") {
+
+        tone(520, 380, .12);
+
+      }
+
+    }
+
+
+
+    /* =====================================================
+       SOUND BUTTON
+    ===================================================== */
+
+    const soundButton =
+      document.getElementById("soundButton");
+
+
+    function updateSoundButton() {
+
+      soundButton.textContent =
+        soundEnabled ? "♫" : "×";
+
+    }
+
+
+    soundButton.addEventListener(
+      "click",
+      () => {
+
+        soundEnabled =
+          !soundEnabled;
+
+
+        saveSetting(
+          "tesla-sound",
+          soundEnabled
+            ? "on"
+            : "off"
+        );
+
+
+        updateSoundButton();
+
+
+        if (soundEnabled) {
+
+          tone(500, 800, .12);
+
+        }
+
+      }
+    );
+
+
+    updateSoundButton();
+
+
+
+    /* =====================================================
+       DARK MODE
+    ===================================================== */
+
+    const themeButton =
+      document.getElementById("themeButton");
+
+
+    const savedTheme =
+      localStorage.getItem("tesla-theme");
+
+
+    if (savedTheme === "dark") {
+
+      document.body.classList.add("dark");
+
+    }
+
+
+    function updateThemeButton() {
+
+      themeButton.textContent =
+        document.body.classList.contains("dark")
+          ? "☀"
+          : "☾";
+
+    }
+
+
+    updateThemeButton();
+
+
+    themeButton.addEventListener(
+      "click",
+      () => {
+
+        document.body.classList.toggle("dark");
+
+
+        const dark =
+          document.body.classList.contains("dark");
+
+
+        saveSetting(
+          "tesla-theme",
+          dark ? "dark" : "light"
+        );
+
+
+        updateThemeButton();
+
+        sound("theme");
+
+      }
+    );
+
+
+
+    /* =====================================================
+       HEADER
+    ===================================================== */
+
+    function updateHeader() {
+
+      if (window.scrollY > 70) {
 
         header.classList.add("scrolled");
 
@@ -1838,82 +3152,385 @@
 
       }
 
-    });
+    }
+
+
+    window.addEventListener(
+      "scroll",
+      updateHeader
+    );
+
+
+    updateHeader();
 
 
 
     /* =====================================================
-       CHANGING HERO TEXT
+       NUMBER ANIMATION
     ===================================================== */
 
-    const heroTexts = [
+    function animateNumber(
+      element,
+      target,
+      decimals = 0
+    ) {
 
-      "Schedule a Demo Drive",
-
-      "Electric Performance",
-
-      "Technology in Motion",
-
-      "The Future of Driving"
-
-    ];
+      const start =
+        parseFloat(element.textContent) || 0;
 
 
-    let textIndex = 0;
+      const duration =
+        650;
 
 
-    const changingText =
-      document.getElementById("changingText");
+      const startTime =
+        performance.now();
 
 
-    setInterval(() => {
+      function frame(time) {
 
-      changingText.classList.add("hide");
-
-
-      setTimeout(() => {
-
-        textIndex =
-          (textIndex + 1) % heroTexts.length;
-
-
-        changingText.textContent =
-          heroTexts[textIndex];
+        const progress =
+          Math.min(
+            (time - startTime)
+            / duration,
+            1
+          );
 
 
-        changingText.classList.remove("hide");
+        const eased =
+          1 -
+          Math.pow(
+            1 - progress,
+            3
+          );
 
-      }, 350);
 
-    }, 3500);
+        const value =
+          start +
+          (target - start)
+          * eased;
+
+
+        element.textContent =
+          value.toFixed(decimals);
+
+
+        if (progress < 1) {
+
+          requestAnimationFrame(frame);
+
+        }
+
+      }
+
+
+      requestAnimationFrame(frame);
+
+    }
 
 
 
     /* =====================================================
-       VIDEO PLAY / PAUSE
+       MODEL SWITCHER
     ===================================================== */
 
-    const video =
-      document.getElementById("heroVideo");
+    const modelButtons =
+      document.querySelectorAll(
+        ".model-button"
+      );
 
 
-    const videoButton =
-      document.getElementById("videoButton");
+    function updateSelectedColumn() {
 
+      document
+        .querySelectorAll(
+          "[data-column]"
+        )
+        .forEach(cell => {
+
+          cell.classList.toggle(
+            "selected-column",
+            cell.dataset.column ===
+            currentModel
+          );
+
+        });
+
+    }
+
+
+
+    function updateBars(model) {
+
+      const maxSpeed = 322;
+
+      const maxRange = 652;
+
+
+      const accelerationScore =
+        Math.round(
+          (2.1 / model.acceleration)
+          * 100
+        );
+
+
+      const speedScore =
+        Math.round(
+          model.speed
+          / maxSpeed
+          * 100
+        );
+
+
+      const rangeScore =
+        Math.round(
+          model.range
+          / maxRange
+          * 100
+        );
+
+
+      document.getElementById(
+        "accelBar"
+      ).style.width =
+        accelerationScore + "%";
+
+
+      document.getElementById(
+        "speedBar"
+      ).style.width =
+        speedScore + "%";
+
+
+      document.getElementById(
+        "rangeBar"
+      ).style.width =
+        rangeScore + "%";
+
+
+      document.getElementById(
+        "accelPercent"
+      ).textContent =
+        accelerationScore + "%";
+
+
+      document.getElementById(
+        "speedPercent"
+      ).textContent =
+        speedScore + "%";
+
+
+      document.getElementById(
+        "rangePercent"
+      ).textContent =
+        rangeScore + "%";
+
+    }
+
+
+
+    let islandTimer;
+
+
+    function islandNotification(
+      message = "CONNECTED"
+    ) {
+
+      clearTimeout(islandTimer);
+
+
+      islandStatus.textContent =
+        message;
+
+
+      island.classList.add(
+        "expanded"
+      );
+
+
+      islandTimer =
+        setTimeout(() => {
+
+          island.classList.remove(
+            "expanded"
+          );
+
+
+          islandStatus.textContent =
+            "CONNECTED";
+
+        }, 1800);
+
+    }
+
+
+
+    function setModel(
+      key,
+      notify = true
+    ) {
+
+      currentModel = key;
+
+
+      const model =
+        models[key];
+
+
+      document.documentElement
+        .style
+        .setProperty(
+          "--accent",
+          model.accent
+        );
+
+
+      modelButtons.forEach(
+        button => {
+
+          button.classList.toggle(
+            "active",
+            button.dataset.model === key
+          );
+
+        }
+      );
+
+
+      modelName.textContent =
+        model.name;
+
+
+      animateNumber(
+        accelNumber,
+        model.acceleration,
+        1
+      );
+
+
+      animateNumber(
+        speedNumber,
+        model.speed,
+        0
+      );
+
+
+      animateNumber(
+        rangeNumber,
+        model.range,
+        0
+      );
+
+
+      islandModel.textContent =
+        model.name.toUpperCase();
+
+
+      islandTitle.textContent =
+        model.name;
+
+
+      islandRange.textContent =
+        model.range + " km";
+
+
+      modalModel.textContent =
+        model.name;
+
+
+      modalSelect.value =
+        key;
+
+
+      updateSelectedColumn();
+
+      updateBars(model);
+
+
+      saveSetting(
+        "tesla-model",
+        key
+      );
+
+
+      if (notify) {
+
+        sound("model");
+
+        islandNotification(
+          "SELECTED ✓"
+        );
+
+      }
+
+    }
+
+
+
+    modelButtons.forEach(
+      button => {
+
+        button.addEventListener(
+          "click",
+          () => {
+
+            setModel(
+              button.dataset.model
+            );
+
+          }
+        );
+
+      }
+    );
+
+
+    setModel(
+      currentModel,
+      false
+    );
+
+
+
+    /* =====================================================
+       DYNAMIC ISLAND MANUAL CONTROL
+    ===================================================== */
+
+    island.addEventListener(
+      "click",
+      () => {
+
+        island.classList.toggle(
+          "expanded"
+        );
+
+
+        sound("open");
+
+      }
+    );
+
+
+
+    /* =====================================================
+       VIDEO CONTROL
+    ===================================================== */
 
     function toggleVideo() {
 
-      if (video.paused) {
+      if (heroVideo.paused) {
 
-        video.play();
+        heroVideo.play();
 
-        videoButton.textContent = "❚❚";
+        videoButton.textContent =
+          "❚❚";
 
       } else {
 
-        video.pause();
+        heroVideo.pause();
 
-        videoButton.textContent = "▶";
+        videoButton.textContent =
+          "▶";
 
       }
 
@@ -1922,23 +3539,120 @@
 
 
     /* =====================================================
-       LIGHT PARALLAX
+       PARALLAX
     ===================================================== */
 
-    window.addEventListener("scroll", () => {
+    window.addEventListener(
+      "scroll",
+      () => {
 
-      const scroll =
-        window.scrollY;
+        const scroll =
+          window.scrollY;
 
 
-      if (scroll < window.innerHeight) {
+        if (
+          scroll <
+          window.innerHeight
+        ) {
 
-        video.style.transform =
-          `translateY(${scroll * 0.15}px) scale(1.05)`;
+          heroVideo.style.transform =
+            `translateY(${scroll * .10}px)
+             scale(1.05)`;
+
+        }
 
       }
+    );
 
-    });
+
+
+    /* =====================================================
+       CUSTOM NAVIGATION TRANSITION
+    ===================================================== */
+
+    let transitionRunning =
+      false;
+
+
+    function navigateTo(id) {
+
+      if (transitionRunning) return;
+
+
+      transitionRunning = true;
+
+
+      sound("nav");
+
+
+      transitionLine.classList.remove(
+        "run"
+      );
+
+
+      void transitionLine.offsetWidth;
+
+
+      transitionLine.classList.add(
+        "run"
+      );
+
+
+      setTimeout(
+        () => {
+
+          document
+            .getElementById(id)
+            .scrollIntoView({
+              behavior: "smooth"
+            });
+
+        },
+        180
+      );
+
+
+      setTimeout(
+        () => {
+
+          transitionLine.classList.remove(
+            "run"
+          );
+
+
+          transitionRunning = false;
+
+        },
+        700
+      );
+
+    }
+
+
+
+    document
+      .querySelectorAll(".js-nav")
+      .forEach(link => {
+
+        link.addEventListener(
+          "click",
+          event => {
+
+            event.preventDefault();
+
+
+            const id =
+              link
+                .getAttribute("href")
+                .replace("#", "");
+
+
+            navigateTo(id);
+
+          }
+        );
+
+      });
 
 
 
@@ -1946,214 +3660,122 @@
        SCROLL REVEAL
     ===================================================== */
 
-    const revealElements =
-      document.querySelectorAll(".reveal");
-
-
     const revealObserver =
       new IntersectionObserver(
 
         entries => {
 
-          entries.forEach(entry => {
-
-            if (entry.isIntersecting) {
-
-              entry.target.classList.add("visible");
-
-            }
-
-          });
-
-        },
-
-        {
-          threshold: 0.15
-        }
-
-      );
-
-
-    revealElements.forEach(element => {
-
-      revealObserver.observe(element);
-
-    });
-
-
-
-    /* =====================================================
-       ACTIVE NAVIGATION
-    ===================================================== */
-
-    const sections =
-      document.querySelectorAll("section[id]");
-
-
-    const navLinks =
-      document.querySelectorAll(".nav-link");
-
-
-    const sectionObserver =
-      new IntersectionObserver(
-
-        entries => {
-
-          entries.forEach(entry => {
-
-            if (entry.isIntersecting) {
-
-              navLinks.forEach(link => {
-
-                link.classList.remove("active");
-
-
-                if (
-                  link.getAttribute("href") ===
-                  "#" + entry.target.id
-                ) {
-
-                  link.classList.add("active");
-
-                }
-
-              });
-
-            }
-
-          });
-
-        },
-
-        {
-          threshold: 0.5
-        }
-
-      );
-
-
-    sections.forEach(section => {
-
-      sectionObserver.observe(section);
-
-    });
-
-
-
-    /* =====================================================
-       COUNTERS
-    ===================================================== */
-
-    const counters =
-      document.querySelectorAll(".counter");
-
-
-    const counterObserver =
-      new IntersectionObserver(
-
-        entries => {
-
-          entries.forEach(entry => {
-
-            if (!entry.isIntersecting) return;
-
-
-            const counter =
-              entry.target;
-
-
-            const target =
-              parseFloat(counter.dataset.target);
-
-
-            const decimals =
-              parseInt(counter.dataset.decimals);
-
-
-            const duration = 1500;
-
-            const startTime =
-              performance.now();
-
-
-            function updateCounter(time) {
-
-              const progress =
-                Math.min(
-                  (time - startTime) / duration,
-                  1
-                );
-
-
-              const eased =
-                1 - Math.pow(1 - progress, 3);
-
-
-              const value =
-                target * eased;
-
-
-              counter.textContent =
-                value.toFixed(decimals);
-
-
-              if (progress < 1) {
-
-                requestAnimationFrame(updateCounter);
+          entries.forEach(
+            entry => {
+
+              if (
+                entry.isIntersecting
+              ) {
+
+                entry.target
+                  .classList
+                  .add("visible");
 
               }
 
             }
-
-
-            requestAnimationFrame(updateCounter);
-
-
-            counterObserver.unobserve(counter);
-
-          });
+          );
 
         },
 
         {
-          threshold: 0.6
+          threshold: .14
         }
 
       );
 
 
-    counters.forEach(counter => {
+    document
+      .querySelectorAll(".reveal")
+      .forEach(element => {
 
-      counterObserver.observe(counter);
+        revealObserver.observe(
+          element
+        );
 
-    });
+      });
 
 
 
     /* =====================================================
-       MOBILE MENU
+       ACTIVE NAV
     ===================================================== */
 
-    const mobileMenu =
-      document.getElementById("mobileMenu");
+    const navObserver =
+      new IntersectionObserver(
+
+        entries => {
+
+          entries.forEach(
+            entry => {
+
+              if (
+                !entry.isIntersecting
+              ) return;
 
 
-    function openMenu() {
-
-      mobileMenu.classList.add("open");
-
-      document.body.style.overflow = "hidden";
-
-    }
+              const id =
+                entry.target.id;
 
 
-    function closeMenu() {
+              document
+                .querySelectorAll(
+                  ".nav-link"
+                )
+                .forEach(link => {
 
-      mobileMenu.classList.remove("open");
+                  link.classList.toggle(
+                    "active",
+                    link
+                      .getAttribute("href")
+                      === "#" + id
+                  );
 
-      document.body.style.overflow = "";
+                });
 
-    }
+
+              document
+                .querySelectorAll(
+                  ".bottom-link"
+                )
+                .forEach(button => {
+
+                  button.classList.toggle(
+                    "active",
+                    button.dataset.section
+                      === id
+                  );
+
+                });
+
+            }
+          );
+
+        },
+
+        {
+          threshold: .45
+        }
+
+      );
+
+
+    document
+      .querySelectorAll(
+        "section[id]"
+      )
+      .forEach(section => {
+
+        navObserver.observe(
+          section
+        );
+
+      });
 
 
 
@@ -2161,15 +3783,15 @@
        MODAL
     ===================================================== */
 
-    const modal =
-      document.getElementById("demoModal");
-
-
     function openModal() {
 
       modal.classList.add("open");
 
-      document.body.style.overflow = "hidden";
+      document.body.style.overflow =
+        "hidden";
+
+
+      sound("open");
 
     }
 
@@ -2178,78 +3800,282 @@
 
       modal.classList.remove("open");
 
-      document.body.style.overflow = "";
+      document.body.style.overflow =
+        "";
 
     }
 
 
-    function outsideModal(event) {
+    modal.addEventListener(
+      "click",
+      event => {
 
-      if (event.target === modal) {
-
-        closeModal();
-
-      }
-
-    }
-
-
-
-    /* =====================================================
-       DEMO FORM
-    ===================================================== */
-
-    const demoForm =
-      document.getElementById("demoForm");
-
-
-    demoForm.addEventListener(
-      "submit",
-      function(event) {
-
-        event.preventDefault();
-
-
-        document
-          .getElementById("successMessage")
-          .style.display = "block";
-
-
-        setTimeout(() => {
+        if (
+          event.target === modal
+        ) {
 
           closeModal();
-
-          demoForm.reset();
-
-          document
-            .getElementById("successMessage")
-            .style.display = "none";
-
-        }, 1800);
-
-      }
-    );
-
-
-
-    /* =====================================================
-       ESC CLOSE
-    ===================================================== */
-
-    document.addEventListener(
-      "keydown",
-      function(event) {
-
-        if (event.key === "Escape") {
-
-          closeModal();
-
-          closeMenu();
 
         }
 
       }
     );
+
+
+
+    modalSelect.addEventListener(
+      "change",
+      () => {
+
+        setModel(
+          modalSelect.value
+        );
+
+      }
+    );
+
+
+
+    document
+      .getElementById("demoForm")
+      .addEventListener(
+        "submit",
+        event => {
+
+          event.preventDefault();
+
+
+          islandNotification(
+            "DRIVE REQUESTED ✓"
+          );
+
+
+          closeModal();
+
+        }
+      );
+
+
+
+    /* =====================================================
+       EASTER EGG
+       
+       DESKTOP:
+       Type TESLA
+       
+       MOBILE:
+       Tap Tesla logo 5 times
+    ===================================================== */
+
+    const ludicrousOverlay =
+      document.getElementById(
+        "ludicrousOverlay"
+      );
+
+
+    let easterBuffer = "";
+
+    let ludicrousActive = false;
+
+
+
+    function activateLudicrous() {
+
+      if (ludicrousActive) return;
+
+
+      ludicrousActive = true;
+
+
+      document.body.classList.add(
+        "ludicrous"
+      );
+
+
+      ludicrousOverlay.classList.add(
+        "active"
+      );
+
+
+      island.classList.add(
+        "expanded"
+      );
+
+
+      islandStatus.textContent =
+        "⚡ LUDICROUS";
+
+
+      islandModel.textContent =
+        "SYSTEM OVERRIDE";
+
+
+      if (soundEnabled) {
+
+        tone(
+          120,
+          340,
+          .4,
+          .06
+        );
+
+
+        setTimeout(
+          () => {
+
+            tone(
+              350,
+              1100,
+              .35,
+              .05
+            );
+
+          },
+          200
+        );
+
+      }
+
+
+      setTimeout(
+        () => {
+
+          ludicrousOverlay
+            .classList
+            .remove("active");
+
+        },
+        2800
+      );
+
+
+      setTimeout(
+        () => {
+
+          document.body
+            .classList
+            .remove("ludicrous");
+
+
+          island.classList.remove(
+            "expanded"
+          );
+
+
+          const model =
+            models[currentModel];
+
+
+          islandModel.textContent =
+            model.name.toUpperCase();
+
+
+          islandStatus.textContent =
+            "CONNECTED";
+
+
+          ludicrousActive = false;
+
+        },
+        4000
+      );
+
+    }
+
+
+
+    document.addEventListener(
+      "keydown",
+      event => {
+
+        easterBuffer +=
+          event.key
+            .toUpperCase();
+
+
+        easterBuffer =
+          easterBuffer.slice(-5);
+
+
+        if (
+          easterBuffer === "TESLA"
+        ) {
+
+          activateLudicrous();
+
+          easterBuffer = "";
+
+        }
+
+
+        if (
+          event.key === "Escape"
+        ) {
+
+          closeModal();
+
+        }
+
+      }
+    );
+
+
+
+    /* =====================================================
+       5 LOGO TAPS
+    ===================================================== */
+
+    const teslaLogo =
+      document.getElementById(
+        "teslaLogo"
+      );
+
+
+    let logoTaps = 0;
+
+    let logoTimer;
+
+
+    teslaLogo.addEventListener(
+      "click",
+      event => {
+
+        logoTaps++;
+
+
+        clearTimeout(
+          logoTimer
+        );
+
+
+        logoTimer =
+          setTimeout(
+            () => {
+
+              logoTaps = 0;
+
+            },
+            2200
+          );
+
+
+        if (
+          logoTaps >= 5
+        ) {
+
+          event.preventDefault();
+
+
+          logoTaps = 0;
+
+
+          activateLudicrous();
+
+        }
+
+      }
+    );
+
 
 
   </script>
