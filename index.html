@@ -2,132 +2,269 @@
 <html lang="en">
 
 <head>
-  <meta charset="UTF-8" />
-  <meta
-    name="viewport"
-    content="width=device-width, initial-scale=1.0"
-  />
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
   <title>Electric car, solar and clean energy</title>
 
   <style>
-
     * {
+      margin: 0;
+      padding: 0;
       box-sizing: border-box;
     }
 
     body {
-      margin: 0;
-      padding: 0;
-      overflow: hidden;
-      font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+      font-family: Arial, Helvetica, sans-serif;
     }
 
-
-    /* VIDEO DE FONDO */
-
-    main {
-      position: absolute;
-      top: 0;
-      left: 0;
-
-      width: 100%;
-      height: 100vh;
-
-      overflow: hidden;
-
-      z-index: 0;
-    }
-
-    video {
-      width: 100%;
-      height: 100%;
-
-      object-fit: cover;
-    }
-
-
-    /* HEADER */
+    /* =========================
+       HEADER
+    ========================= */
 
     header {
-      position: absolute;
-      top: 0;
-      left: 0;
-
+      height: 70px;
       width: 100%;
 
-      z-index: 10;
+      background-color: white;
 
       display: flex;
       align-items: center;
       justify-content: space-between;
 
-      color: blanchedalmond;
+      padding: 0 40px;
 
-      padding: 10px 20px;
+      position: relative;
+      z-index: 100;
     }
 
-    header img {
-      filter: brightness(1000);
-      width: 200px;
-    }
+    .logo {
+      width: 150px;
 
+      /* convierte el logo en negro */
+      filter: brightness(0);
+    }
 
     nav {
       display: flex;
+      align-items: center;
     }
 
-    ul {
+    nav ul {
       list-style: none;
 
       display: flex;
+      align-items: center;
 
-      margin: 0;
-      padding: 0;
+      gap: 30px;
     }
 
-    li {
-      margin: 15px;
+    nav li {
+      font-size: 15px;
+      font-weight: 500;
+
+      cursor: pointer;
+    }
+
+    .right-menu {
+      display: flex;
+      gap: 25px;
     }
 
 
-    /* TEXTO CENTRAL */
+    /* =========================
+       HERO
+    ========================= */
 
-    section {
+    .hero {
+      position: relative;
+
+      width: 100%;
+      height: calc(100vh - 70px);
+
+      overflow: hidden;
+    }
+
+
+    /* VIDEO */
+
+    .hero video {
       position: absolute;
 
-      top: 100px;
+      top: 0;
       left: 0;
 
       width: 100%;
+      height: 100%;
 
-      z-index: 10;
+      object-fit: cover;
+
+      z-index: 1;
+    }
+
+
+    /* pequeña capa oscura para que se vea el texto */
+
+    .overlay {
+      position: absolute;
+
+      inset: 0;
+
+      background: rgba(0, 0, 0, 0.12);
+
+      z-index: 2;
+    }
+
+
+    /* =========================
+       TEXTO
+    ========================= */
+
+    .hero-content {
+      position: absolute;
+
+      top: 90px;
+      left: 50%;
+
+      transform: translateX(-50%);
+
+      z-index: 3;
+
+      color: white;
 
       text-align: center;
 
-      color: blanchedalmond;
+      width: 100%;
+    }
+
+    .hero-content h1 {
+      font-size: 55px;
+      font-weight: 600;
+
+      margin-bottom: 10px;
+    }
+
+    .hero-content h2 {
+      font-size: 22px;
+      font-weight: 400;
     }
 
 
-    /* BOTÓN */
+    /* =========================
+       BOTONES
+    ========================= */
 
-    #section2 {
-      top: auto;
+    .buttons {
+      position: absolute;
+
       bottom: 60px;
+      left: 50%;
+
+      transform: translateX(-50%);
+
+      z-index: 3;
+
+      display: flex;
+
+      gap: 15px;
     }
 
     button {
-      border: 2px solid blanchedalmond;
+      width: 220px;
 
-      background-color: transparent;
+      padding: 14px;
 
-      padding: 12px 25px;
-
+      border: none;
       border-radius: 5px;
 
-      color: blanchedalmond;
+      font-size: 16px;
+      font-weight: 600;
 
       cursor: pointer;
+    }
+
+    .primary {
+      background-color: #3e6ae1;
+      color: white;
+    }
+
+    .secondary {
+      background-color: white;
+      color: #171a20;
+    }
+
+
+    /* =========================
+       TABLET / IPAD
+    ========================= */
+
+    @media (max-width: 1100px) {
+
+      .main-menu {
+        display: none;
+      }
+
+      header {
+        padding: 0 30px;
+      }
+
+      .right-menu li:not(:last-child) {
+        display: none;
+      }
+
+      .right-menu li:last-child {
+        background: #f4f4f4;
+
+        padding: 12px 20px;
+
+        border-radius: 5px;
+      }
+    }
+
+
+    /* =========================
+       CELULAR
+    ========================= */
+
+    @media (max-width: 600px) {
+
+      header {
+        height: 60px;
+
+        padding: 0 20px;
+      }
+
+      .logo {
+        width: 120px;
+      }
+
+      .hero {
+        height: calc(100vh - 60px);
+      }
+
+      .hero-content {
+        top: 70px;
+      }
+
+      .hero-content h1 {
+        font-size: 40px;
+      }
+
+      .hero-content h2 {
+        font-size: 18px;
+      }
+
+      .buttons {
+        width: 90%;
+
+        flex-direction: column;
+
+        bottom: 30px;
+      }
+
+      button {
+        width: 100%;
+      }
     }
 
   </style>
@@ -136,39 +273,27 @@
 
 <body>
 
-
-  <main>
-
-    <video autoplay muted loop playsinline>
-
-      <source
-        src="./video tesla (1).mp4"
-        type="video/mp4"
-      />
-
-    </video>
-
-  </main>
-
+  <!-- HEADER -->
 
   <header>
 
     <img
       src="./tesla remove img.png"
-      alt="Logo de Tesla"
-    />
+      class="logo"
+      alt="Tesla"
+    >
 
 
-    <nav>
+    <nav class="main-menu">
 
-      <ul id="menu1">
+      <ul>
 
         <li>Model S</li>
         <li>Model 3</li>
         <li>Model X</li>
         <li>Model Y</li>
         <li>Solar Roof</li>
-        <li>Solar Panel</li>
+        <li>Solar Panels</li>
         <li>Powerwall</li>
 
       </ul>
@@ -178,7 +303,7 @@
 
     <nav>
 
-      <ul id="menu2">
+      <ul class="right-menu">
 
         <li>Shop</li>
         <li>Account</li>
@@ -192,19 +317,60 @@
 
 
 
-  <section>
+  <!-- HERO -->
 
-    <h1>Experience Tesla</h1>
-
-    <h2>Schedule a Demo Drive</h2>
-
-  </section>
+  <section class="hero">
 
 
+    <!-- VIDEO DE FONDO -->
 
-  <section id="section2">
+    <video
+      autoplay
+      muted
+      loop
+      playsinline
+    >
 
-    <button>Demo Drive</button>
+      <source
+        src="./video tesla (1).mp4"
+        type="video/mp4"
+      >
+
+    </video>
+
+
+    <!-- CAPA OSCURA -->
+
+    <div class="overlay"></div>
+
+
+
+    <!-- TEXTO -->
+
+    <div class="hero-content">
+
+      <h1>Experience Tesla</h1>
+
+      <h2>Schedule a Demo Drive</h2>
+
+    </div>
+
+
+
+    <!-- BOTONES -->
+
+    <div class="buttons">
+
+      <button class="primary">
+        Order Now
+      </button>
+
+      <button class="secondary">
+        Demo Drive
+      </button>
+
+    </div>
+
 
   </section>
 
